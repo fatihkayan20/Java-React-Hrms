@@ -2,9 +2,11 @@ package project.hrms.business.concretes;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import project.hrms.business.abstracts.CandidateService;
 import project.hrms.business.abstracts.UserService;
 import project.hrms.core.utilities.helpers.BusinessRule;
+import project.hrms.core.utilities.imageUploaders.ImageService;
 import project.hrms.core.utilities.results.*;
 import project.hrms.dataAccess.abstracts.CandidateDao;
 import project.hrms.entities.concretes.Candidate;
@@ -16,11 +18,13 @@ public class CandidateManager implements CandidateService {
 
     private final CandidateDao candidateDao;
     private final UserService userService;
+    private final ImageService imageService;
 
     @Autowired
-    public CandidateManager(CandidateDao candidateDao, UserService userService) {
+    public CandidateManager(CandidateDao candidateDao, UserService userService, ImageService imageService) {
         this.candidateDao = candidateDao;
         this.userService= userService;
+        this.imageService = imageService;
     }
 
     @Override
@@ -34,15 +38,28 @@ public class CandidateManager implements CandidateService {
     }
 
     @Override
-    public Result add(Candidate candidate) {
-        var isValid = BusinessRule.run(checkIfCandidateValid(candidate), checkIfEmailExists(candidate.getEmail()),checkIfNationalIdentityExists(candidate.getNationalIdentity()));
+    public DataResult<Candidate> add(Candidate candidate) {
+        var isValid = BusinessRule.run(
+                checkIfCandidateValid(candidate), checkIfEmailExists(candidate.getEmail()),checkIfNationalIdentityExists(candidate.getNationalIdentity())
+        );
 
         if (!isValid.isSuccess()){
-            return isValid;
+            return new ErrorDataResult<>(null, isValid.getMessage());
         }
 
-        candidateDao.save(candidate);
-        return new SuccesResult("Added.");
+
+        return new SuccessDataResult<>( this.candidateDao.save(candidate),"Added.");
+    }
+
+    @Override
+    public DataResult<Candidate> imageUpload(int candidateId, MultipartFile file) {
+        var candidate = this.candidateDao.getById(candidateId);
+        var result = BusinessRule.run(uploadImageToCloudinary(file),checkCandidateExists(candidate));
+
+        if (!result.isSuccess()){
+            return new ErrorDataResult<>(null, result.getMessage());
+        }
+        return null;
     }
 
     @Override
@@ -52,11 +69,25 @@ public class CandidateManager implements CandidateService {
     }
 
     @Override
-    public Result update(Candidate candidate) {
-        candidateDao.save(candidate);
-        return new SuccesResult("Updated.");
+    public DataResult<Candidate> update(Candidate candidate) {
+
+        return new SuccessDataResult<>(this.candidateDao.save(candidate),"Updated.");
     }
 
+
+
+
+    private  Result uploadImageToCloudinary( MultipartFile file){
+        var result = this.imageService.save(file);
+        return new SuccesResult();
+    }
+
+    private Result checkCandidateExists(Candidate candidate){
+        if (candidate == null){
+            return new ErrorResult("Candidate doesn't exists");
+        }
+        return  new SuccesResult();
+    }
 
     private Result checkIfCandidateValid(Candidate candidate){
         if(candidate.getFirstName() == null || candidate.getFirstName().isBlank()

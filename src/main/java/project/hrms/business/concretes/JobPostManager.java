@@ -23,7 +23,7 @@ public class JobPostManager implements JobPostService {
 
     @Override
     public DataResult<List<JobPost>> getAllActives() {
-        return new SuccessDataResult<>(this.jobPostDao.getByIsActivatedTrueOrderByCreatedDateDesc());
+    return new SuccessDataResult<>(this.jobPostDao.getByIsActivatedTrueAndAppealDeadlineNullOrAppealDeadlineGreaterThanEqual(LocalDate.now()));
     }
 
     @Override
@@ -34,7 +34,7 @@ public class JobPostManager implements JobPostService {
 
     @Override
     public DataResult<List<JobPost>> getAllByEmployer(int employerId) {
-        return new SuccessDataResult<>(this.jobPostDao.getByEmployer_IdAndIsActivatedTrue(employerId));
+        return new SuccessDataResult<>(this.jobPostDao.getByEmployer_IdAndIsActivatedTrueAndAppealDeadlineNullOrAppealDeadlineGreaterThanEqual(employerId, LocalDate.now()));
     }
 
     @Override

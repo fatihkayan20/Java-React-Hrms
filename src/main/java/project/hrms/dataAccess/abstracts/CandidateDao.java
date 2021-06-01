@@ -6,4 +6,5 @@ import project.hrms.entities.concretes.User;
 
 public interface CandidateDao extends JpaRepository<Candidate, Integer> {
     User getByNationalIdentity(String nationalIdentity);
+    Candidate getById(int id);
 }

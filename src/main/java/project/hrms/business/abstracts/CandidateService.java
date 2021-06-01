@@ -1,5 +1,6 @@
 package project.hrms.business.abstracts;
 
+import org.springframework.web.multipart.MultipartFile;
 import project.hrms.core.utilities.results.DataResult;
 import project.hrms.core.utilities.results.Result;
 import project.hrms.entities.concretes.Candidate;
@@ -11,7 +12,8 @@ import java.util.List;
 public interface CandidateService {
     DataResult<List<Candidate>> getAll();
     DataResult<Candidate> get(int id);
-    Result add(Candidate candidate);
+    DataResult<Candidate> add(Candidate candidate);
+    DataResult<Candidate> imageUpload(int candidateId, MultipartFile file);
     Result delete(Candidate candidate);
-    Result update(Candidate candidate);
+    DataResult<Candidate> update(Candidate candidate);
 }
