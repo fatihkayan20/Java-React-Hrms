@@ -22,9 +22,9 @@ public class CurriculumVitae {
     @Column(name="id")
     private int id;
 
-//    @OneToOne(mappedBy = "curriculumVitae")
-//    @JoinColumn(name = "candidate_id")
-//    private Candidate candidate;
+    @ManyToOne()
+    @JoinColumn(name = "candidate_id")
+    private Candidate candidate;
 
     @Column(name = "github_address")
     private String githubAddress;

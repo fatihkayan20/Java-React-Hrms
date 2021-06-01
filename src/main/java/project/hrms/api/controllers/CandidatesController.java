@@ -6,8 +6,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import project.hrms.business.abstracts.CandidateService;
+import project.hrms.core.utilities.results.DataResult;
+import project.hrms.core.utilities.results.ErrorResult;
+import project.hrms.core.utilities.results.SuccessDataResult;
 import project.hrms.entities.concretes.Candidate;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -52,7 +56,14 @@ public class CandidatesController {
 
     @PostMapping("uploadImage")
     public ResponseEntity<?> uploadImage(@RequestParam int candidateId, @RequestParam MultipartFile file){
-        var result = this.candidateService.imageUpload(candidateId,file);
+        DataResult result = null ;
+        try {
+            result = this.candidateService.imageUpload(candidateId,file);
+        }
+        catch(IOException e) {
+            e.printStackTrace();
+        }
+
         if (!result.isSuccess()){
             return ResponseEntity.badRequest().body(result);
         }

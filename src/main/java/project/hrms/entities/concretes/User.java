@@ -1,5 +1,6 @@
 package project.hrms.entities.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,13 +26,15 @@ public class User {
     private String email;
 
     @Column(name="password")
+    @JsonIgnore
     private String password;
 
     @Column(name="is_deleted")
-    private boolean is_deleted;
+    @JsonIgnore
+    private boolean is_deleted=false;
 
     @Column(name="is_activated")
-    private boolean is_activated;
+    private boolean is_activated= false;
 
     @Column(name="updated_date")
     private LocalDate updatedDate;

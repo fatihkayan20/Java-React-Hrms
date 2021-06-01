@@ -25,6 +25,15 @@ public class CurriculumVitaesController {
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping("/getbycandidate")
+    public ResponseEntity<?> getByCandidate(int id){
+        var result = this.curriculumVitaeService.getByCandidate(id);
+        if (!result.isSuccess()){
+            return ResponseEntity.badRequest().body(result);
+        }
+        return ResponseEntity.ok(result);
+    }
+
     @PostMapping("/add")
     public ResponseEntity<?> add(@RequestBody CurriculumVitae curriculumVitae){
         var result = this.curriculumVitaeService.add(curriculumVitae);

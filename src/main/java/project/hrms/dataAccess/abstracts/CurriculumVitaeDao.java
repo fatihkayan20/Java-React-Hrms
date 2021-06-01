@@ -7,4 +7,5 @@ import project.hrms.entities.concretes.CurriculumVitae;
 import java.util.List;
 
 public interface CurriculumVitaeDao extends JpaRepository<CurriculumVitae, Integer> {
+    List<CurriculumVitae> getByCandidate_Id(int id);
 }

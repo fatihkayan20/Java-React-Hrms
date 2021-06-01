@@ -25,6 +25,11 @@ public class CurriculumVitaeManager implements CurriculumVitaeService {
     }
 
     @Override
+    public DataResult<List<CurriculumVitae>> getByCandidate(int id) {
+        return new SuccessDataResult<>(this.curriculumVitaeDao.getByCandidate_Id(id));
+    }
+
+    @Override
     public DataResult<CurriculumVitae> add(CurriculumVitae curriculumVitae) {
         return new SuccessDataResult<>(this.curriculumVitaeDao.save(curriculumVitae));
     }

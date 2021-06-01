@@ -11,6 +11,7 @@ import project.hrms.core.utilities.results.*;
 import project.hrms.dataAccess.abstracts.CandidateDao;
 import project.hrms.entities.concretes.Candidate;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -21,7 +22,7 @@ public class CandidateManager implements CandidateService {
     private final ImageService imageService;
 
     @Autowired
-    public CandidateManager(CandidateDao candidateDao, UserService userService, ImageService imageService) {
+    public CandidateManager(CandidateDao candidateDao, UserService userService,ImageService imageService) {
         this.candidateDao = candidateDao;
         this.userService= userService;
         this.imageService = imageService;
@@ -52,14 +53,18 @@ public class CandidateManager implements CandidateService {
     }
 
     @Override
-    public DataResult<Candidate> imageUpload(int candidateId, MultipartFile file) {
+    public DataResult<Candidate> imageUpload(int candidateId, MultipartFile file) throws IOException {
         var candidate = this.candidateDao.getById(candidateId);
-        var result = BusinessRule.run(uploadImageToCloudinary(file),checkCandidateExists(candidate));
+        var imageUrl = uploadImageToCloudinary(file, candidate.getImageUrl());
+        var result = BusinessRule.run(checkCandidateExists(candidate), checkCandidateHadImageUrl(imageUrl.getMessage(),candidate.getImageUrl()));
 
         if (!result.isSuccess()){
             return new ErrorDataResult<>(null, result.getMessage());
+        }if (!imageUrl.isSuccess()){
+            return new ErrorDataResult<>(null, imageUrl.getMessage());
         }
-        return null;
+        candidate.setImageUrl(imageUrl.getMessage());
+        return new SuccessDataResult<>(this.candidateDao.save(candidate));
     }
 
     @Override
@@ -77,8 +82,24 @@ public class CandidateManager implements CandidateService {
 
 
 
-    private  Result uploadImageToCloudinary( MultipartFile file){
-        var result = this.imageService.save(file);
+    private  Result uploadImageToCloudinary( MultipartFile file, String imageUrl) throws IOException {
+
+        var result = this.imageService.upload(file);
+        if(!result.isSuccess()){
+            return new ErrorResult(result.getMessage());
+        }
+        if(imageUrl != null){
+            var imageId = imageUrl.split(("/"))[imageUrl.split(("/")).length - 1].split("\\.")[0];
+            this.imageService.delete(imageId);
+        }
+        var url = result.getData().get("url");
+        return new SuccesResult(url.toString());
+    }
+
+    private Result checkCandidateHadImageUrl(String newUrl, String oldUrl){
+        if(oldUrl != null && newUrl == null){
+            return new ErrorResult("Image must be required");
+        }
         return new SuccesResult();
     }
 

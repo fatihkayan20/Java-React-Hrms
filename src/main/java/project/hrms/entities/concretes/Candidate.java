@@ -1,11 +1,11 @@
 package project.hrms.entities.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.util.List;
 
 @Data
@@ -31,9 +31,9 @@ public class Candidate extends User{
     @Column(name="date_of_birth")
     private String  dateOfBirth;
 
-//    @OneToOne(mappedBy = "candidate")
-//    @JoinColumn(name = "curriculum_vitae_id")
-//    private CurriculumVitae curriculumVitae;
+    @OneToMany(mappedBy = "candidate")
+    @JsonIgnore
+    private List<CurriculumVitae> curriculumVitae;
 
 
     public Candidate(String email,String password,String firstName, String lastName, String nationalIdentity, String  dateOfBirth) {
