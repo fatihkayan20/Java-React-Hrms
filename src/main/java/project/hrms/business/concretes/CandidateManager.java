@@ -94,6 +94,7 @@ public class CandidateManager implements CandidateService {
         }
         var url = result.getData().get("url");
         return new SuccesResult(url.toString());
+
     }
 
     private Result checkCandidateHadImageUrl(String newUrl, String oldUrl){
