@@ -55,13 +55,14 @@ public class CandidateManager implements CandidateService {
     @Override
     public DataResult<Candidate> imageUpload(int candidateId, MultipartFile file) throws IOException {
         var candidate = this.candidateDao.getById(candidateId);
+        if(candidate == null){
+            return new ErrorDataResult<>(null, "Candidate doesn't exists");
+        }
         var imageUrl = uploadImageToCloudinary(file, candidate.getImageUrl());
         var result = BusinessRule.run(checkCandidateExists(candidate), checkCandidateHadImageUrl(imageUrl.getMessage(),candidate.getImageUrl()));
 
-        if (!result.isSuccess()){
-            return new ErrorDataResult<>(null, result.getMessage());
-        }if (!imageUrl.isSuccess()){
-            return new ErrorDataResult<>(null, imageUrl.getMessage());
+        if (!result.isSuccess() ||!imageUrl.isSuccess()){
+            return new ErrorDataResult<>(null, result.getMessage() == null ? imageUrl.getMessage(): result.getMessage());
         }
         candidate.setImageUrl(imageUrl.getMessage());
         return new SuccessDataResult<>(this.candidateDao.save(candidate));
@@ -83,7 +84,6 @@ public class CandidateManager implements CandidateService {
 
 
     private  Result uploadImageToCloudinary( MultipartFile file, String imageUrl) throws IOException {
-
         var result = this.imageService.upload(file);
         if(!result.isSuccess()){
             return new ErrorResult(result.getMessage());

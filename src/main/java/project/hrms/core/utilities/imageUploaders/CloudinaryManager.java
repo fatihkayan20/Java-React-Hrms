@@ -39,8 +39,10 @@ public class CloudinaryManager implements ImageService {
              result = cloudinary.uploader().upload(file, options);
         }catch (Exception e){
             return new ErrorDataResult<>(e.getMessage());
+        }finally {
+            file.delete();
         }
-        file.delete();
+
         return new SuccessDataResult<>(result);
     }
 
