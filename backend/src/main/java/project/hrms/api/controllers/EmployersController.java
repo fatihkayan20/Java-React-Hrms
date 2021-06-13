@@ -8,7 +8,7 @@ import project.hrms.business.abstracts.EmployerService;
 import project.hrms.entities.concretes.Employer;
 
 import java.util.List;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api/employers/")
 public class EmployersController {

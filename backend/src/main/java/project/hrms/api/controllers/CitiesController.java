@@ -6,21 +6,22 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import project.hrms.business.abstracts.EmployeeService;
+import project.hrms.business.abstracts.CityService;
+
 @CrossOrigin
 @RestController
-@RequestMapping("/api/employees/")
-public class EmployeeController {
-    private final EmployeeService employeeService;
+@RequestMapping("/api/cities")
+public class CitiesController {
+    private CityService cityService;
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService) {
-        this.employeeService = employeeService;
+    public CitiesController(CityService cityService) {
+        this.cityService = cityService;
     }
 
     @GetMapping("getall")
     public ResponseEntity<?> getAll(){
-        var result = employeeService.getAll();
+        var result = this.cityService.getAll();
         if (!result.isSuccess()){
             return ResponseEntity.badRequest().body(result);
         }

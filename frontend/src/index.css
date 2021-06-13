@@ -9,3 +9,7 @@ a {
 a:hover {
     text-decoration: none;
 }
+
+.helper-text {
+    color: red !important
+}

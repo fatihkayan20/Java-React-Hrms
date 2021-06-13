@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import project.hrms.business.abstracts.JobExperianceService;
 import project.hrms.entities.concretes.ForeignLanguage;
 import project.hrms.entities.concretes.JobExperience;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api/jobexperiances")
 public class JobExperiancesController {

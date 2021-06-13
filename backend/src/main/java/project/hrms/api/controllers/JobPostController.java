@@ -5,9 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.hrms.business.abstracts.JobPostService;
 import project.hrms.entities.concretes.JobPost;
-
+@CrossOrigin
 @RestController
-@RequestMapping("/api/jobpost/")
+@RequestMapping("/api/jobpostings/")
 public class JobPostController {
     private final JobPostService jobPostService;
 

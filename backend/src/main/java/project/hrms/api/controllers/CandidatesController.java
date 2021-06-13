@@ -14,6 +14,7 @@ import project.hrms.entities.concretes.Candidate;
 import java.io.IOException;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/candidates/")
 public class CandidatesController {

@@ -8,18 +8,25 @@ function Navbar() {
       <div className="h-full w-full max-w-5xl m-auto flex flex-row items-center justify-between">
         <div className="navbar-left  flex flex-row items-center">
           <div className="navbar-logo flex flex-row items-center cursor-pointer">
-            <span className="logo-title ml-2 text-pink-400 text-xl">
-              JobSeek
-            </span>
+            <span className="logo-title  text-pink-400 text-xl">JobSeek</span>
           </div>
 
           <div className="navbar-links flex flex-row items-center mx-10">
             <Link
               to="/jobpostings"
-              className="nav-link flex flex-row items-center cursor-pointer"
+              className="nav-link flex flex-row items-center cursor-pointer mr-2"
             >
               <Work className="text-white" />
               <div className="nav-link-text ml-1 text-white ">Job Postings</div>
+            </Link>
+            <Link
+              to="/jobpostings/add"
+              className="nav-link flex flex-row items-center cursor-pointer mr-2"
+            >
+              <Work className="text-white" />
+              <div className="nav-link-text ml-1 text-white ">
+                Job Postings Add
+              </div>
             </Link>
           </div>
         </div>

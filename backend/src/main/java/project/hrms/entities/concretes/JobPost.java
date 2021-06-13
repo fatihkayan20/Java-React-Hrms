@@ -53,7 +53,7 @@ public class JobPost {
 
     @Column(name = "is_activated")
     @JsonIgnore
-    private boolean isActivated = false;
+    private boolean isActivated = true;
 
     @Column(name = "is_deleted")
     @JsonIgnore
@@ -67,7 +67,6 @@ public class JobPost {
     private LocalDate deletedDate;
 
     @Column(name = "created_date")
-    @JsonIgnore
     private LocalDate createdDate = LocalDate.now();
 
 

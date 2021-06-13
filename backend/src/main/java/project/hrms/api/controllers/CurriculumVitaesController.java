@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import project.hrms.business.abstracts.CurriculumVitaeService;
 import project.hrms.entities.concretes.CurriculumVitae;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/cvs")
 public class CurriculumVitaesController {

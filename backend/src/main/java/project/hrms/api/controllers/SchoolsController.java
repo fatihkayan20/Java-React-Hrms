@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.hrms.business.abstracts.SchoolService;
 import project.hrms.entities.concretes.School;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api/schools")
 public class SchoolsController {

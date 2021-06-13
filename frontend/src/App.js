@@ -1,21 +1,21 @@
 import { Provider } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navbar from "./components/layout/navbar";
-import store from "./redux/store";
 import HomePage from "./pages/HomePage";
 import JobPostingsPage from "./pages/JobPostingsPage";
+import JobPostingsAddPage from "./pages/JobPostingsAddPage";
+import store from "./redux/store";
 
 function App() {
   return (
     <Provider store={store}>
       <Router>
         <Navbar />
-        <div className="container">
-          <Switch>
-            <Route path="/" component={HomePage} />
-            <Route path="/jobpostings" component={JobPostingsPage} />
-          </Switch>
-        </div>
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route exact path="/jobpostings" component={JobPostingsPage} />
+          <Route exact path="/jobpostings/add" component={JobPostingsAddPage} />
+        </Switch>
       </Router>
     </Provider>
   );

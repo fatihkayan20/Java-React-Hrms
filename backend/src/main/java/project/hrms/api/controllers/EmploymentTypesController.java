@@ -6,21 +6,21 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import project.hrms.business.abstracts.EmployeeService;
+import project.hrms.business.abstracts.EmploymentTypeService;
+
 @CrossOrigin
 @RestController
-@RequestMapping("/api/employees/")
-public class EmployeeController {
-    private final EmployeeService employeeService;
-
-    @Autowired
-    public EmployeeController(EmployeeService employeeService) {
-        this.employeeService = employeeService;
+@RequestMapping("/api/employmenttypes")
+public class EmploymentTypesController {
+    private EmploymentTypeService employmentTypeService;
+@Autowired
+    public EmploymentTypesController(EmploymentTypeService employmentTypeService) {
+        this.employmentTypeService = employmentTypeService;
     }
 
     @GetMapping("getall")
     public ResponseEntity<?> getAll(){
-        var result = employeeService.getAll();
+        var result = this.employmentTypeService.getAll();
         if (!result.isSuccess()){
             return ResponseEntity.badRequest().body(result);
         }
