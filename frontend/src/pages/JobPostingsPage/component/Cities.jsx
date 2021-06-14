@@ -9,7 +9,13 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCities } from "../../../redux/actions/cityActions";
 
-export default function Cities({ handleChange, value, error, errorMessage }) {
+export default function Cities({
+  handleChange,
+  value,
+  error,
+  errorMessage,
+  name,
+}) {
   const dispatch = useDispatch();
   const cities = useSelector((state) => state.city.cities);
   useEffect(() => {
@@ -22,7 +28,7 @@ export default function Cities({ handleChange, value, error, errorMessage }) {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          name="city.id"
+          name={name}
           value={value}
           onChange={handleChange}
           error={error}

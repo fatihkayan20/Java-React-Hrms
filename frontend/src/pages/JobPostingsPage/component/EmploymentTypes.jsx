@@ -14,6 +14,7 @@ export default function EmploymentTypes({
   value,
   error,
   errorMessage,
+  name,
 }) {
   const dispatch = useDispatch();
   const types = useSelector((state) => state.employmentType.types);
@@ -28,7 +29,7 @@ export default function EmploymentTypes({
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
-          name="employmentType.id"
+          name={name}
           onChange={handleChange}
           error={error}
         >

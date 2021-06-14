@@ -14,6 +14,7 @@ export default function JobPositions({
   handleChange,
   error,
   errorMessage,
+  name,
 }) {
   const dispatch = useDispatch();
   const jobPositions = useSelector((state) => state.jobPosition.jobPositions);
@@ -28,7 +29,7 @@ export default function JobPositions({
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}
-          name="jobPosition.id"
+          name={name}
           onChange={handleChange}
           error={error}
         >

@@ -16,7 +16,10 @@ import { addJobPosting } from "../../redux/actions/jobPostingActions";
 import { useDispatch } from "react-redux";
 
 const validationSchema = yup.object({
-  quota: yup.number().required("Quota is required"),
+  quota: yup
+    .number()
+    .required("Quota is required")
+    .min(0, "Quota must be greater than 0"),
   minSalary: yup
     .number()
     .required("Min salary is required")
@@ -74,8 +77,7 @@ export default function JobPostingAdd() {
         <Cities
           handleChange={formik.handleChange}
           value={formik.values.city.id}
-          name="city"
-          secondName="id"
+          name="city.id"
           error={formik.touched.city?.id && Boolean(formik.errors.city?.id)}
           errorMessage={formik.touched.city?.id && formik.errors.city?.id}
         />
@@ -83,8 +85,7 @@ export default function JobPostingAdd() {
         <JobPositions
           handleChange={formik.handleChange}
           value={formik.values.jobPosition.id}
-          name="jobPosition"
-          secondName="id"
+          name="jobPosition.id"
           error={
             formik.touched.jobPosition?.id &&
             Boolean(formik.errors.jobPosition?.id)
@@ -96,8 +97,7 @@ export default function JobPostingAdd() {
         <EmploymentTypes
           handleChange={formik.handleChange}
           value={formik.values.employmentType.id}
-          name="employmentType"
-          secondName="id"
+          name="employmentType.id"
           error={
             formik.touched.employmentType?.id &&
             Boolean(formik.errors.employmentType?.id)

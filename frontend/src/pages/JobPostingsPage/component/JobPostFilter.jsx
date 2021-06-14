@@ -10,10 +10,11 @@ export default function JobPostFilter() {
     employmentTypeId: "",
   });
 
-  const handleChange = (e, name) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
     setState({
       ...state,
-      [name]: e,
+      [name]: value,
     });
   };
   return (
